@@ -17,6 +17,11 @@ npm run dev
 ```
 A API sobe em `http://localhost:3000`
 
+## Scripts
+- `npm run dev` | Roda em desenvolvimento(reinicia ao salvar)
+- `npm run build` | Compila o TypeScript para `dist/`
+- `npm start` | Roda o código compilado
+
 ## Variáveis de ambiente
 | Variável |     Descrição     | Padrão |
 |  ------  | ----------------- | ------ |
@@ -27,10 +32,13 @@ A API sobe em `http://localhost:3000`
 | ------ | --------- |          ---------           |
 |  GET   | `/health` | Verifica se a API está no ar |
 
-## Scripts
-- `npm run dev` | Roda em desenvolvimento(reinicia ao salvar)
-- `npm run build` | Compila o TypeScript para `dist/`
-- `npm start` | Roda o código compilado
+## Tratamento de erros
+Erros esperados são lançados em `AppError(mensagem, statusCode)` e o middleware `errorHandler` responde sempre em JSON:
+```
+json
+{ "error": "Rota não encontrada" }
+```
+Rotas inexistentes retornam `404` e erros inesperados retornam `500`
 
 ## Estrutura de pastas
 - `src/controllers`: recebem a requisição e devolvem a resposta
