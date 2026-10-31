@@ -1,2 +1,6 @@
-const mensagem: string = "Boilerplate iniciado!"
-console.log(mensagem)
+import app from "./app"
+import { env } from "./config/env"
+
+app.listen(env.port, () => {
+    console.log(`Servidor rodando em http://localhost:${env.port}`)
+})
