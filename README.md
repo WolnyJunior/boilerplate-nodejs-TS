@@ -31,18 +31,23 @@ A API sobe em `http://localhost:3000`
 - `npm run db:migrate` | Executa as migrations pendentes
 - `npm run db:migrate:undo` | Desfaz a última migration
 - `npm run db:migration:create --nome` | Cria nova migration
+- `npm run db:seed` | Popula o banco (admin inicial e usuarios de exemplo)
+- `npm run db:seed:undo` | Remove do dados criados pelos seeders
+- `npm run db:seed:create -- nome` | Cria um novo seeder
 
 ## Variáveis de ambiente
-|    Variável     |      Descrição      |   Padrão    |
-|    --------     | -----------------   |   -------   |
-| `PORT`          | Porta do Servidor   | `3000`      |
-| `DB_HOST`       | Host do PostgreSQL  | `localhost` |
-| `DB_PORT`       | Porta do PostgreSQL | `5432`      |
-| `DB_NAME`       | Nome do banco       | obrigatória |
-| `DB_USER`       | Usuário do banco    | obrigatória |
-| `DB_PASSWORD`   | Senha do banco      | obrigatória |
-| `JWT_SECRET`    | Chave do Token JWT  | obrigatória |
-| `JWT_EXPIRES_IN`| Validade do Token   | `1d`        |
+|    Variável          |      Descrição                      |   Padrão       |
+|    --------          | -----------------                   |   -------      |
+| `PORT`               | Porta do Servidor                   | `3000`         |
+| `DB_HOST`            | Host do PostgreSQL                  | `localhost`    |
+| `DB_PORT`            | Porta do PostgreSQL                 | `5432`         |
+| `DB_NAME`            | Nome do banco                       | obrigatória    |
+| `DB_USER`            | Usuário do banco                    | obrigatória    |
+| `DB_PASSWORD`        | Senha do banco                      | obrigatória    |
+| `JWT_SECRET`         | Chave do Token JWT                  | obrigatória    |
+| `JWT_EXPIRES_IN`     | Validade do Token                   | `1d`           |
+| `SEED_ADMIN_EMAIL`   | E-mail do admin, criado pelo seeder | Só para o seed |
+| `SEED_ADMIN_PASSWORD`| Senha do admin(min 8 caracteres)    | Só para o seed |
 
 Para gerar uma `JWT_SECRET`
 ``` bash
@@ -77,10 +82,14 @@ O perfil fica gravado dentro do token, então, uma mudança de perfil só vale a
 
 ### Primeiro `admin`
 O Cadastro sempre cria com perfil `usuário`. Para criar o primeiro admin, cadastre o usuário e promova-o direto no banco de dados:
-```sql
-UPDATE usuarios SET perfil = 'admin' WHERE email= 'email do usuario'
-
+```bash
+npm run db:seed
 ```
+O comando também cria 5 usuários de exemplo (senha = `12345678`), que **NÃO rodam em produção
+```bash
+npx sequelize-cli db:seed --seed <arquivo-admin-inicial>.js
+```
+Os seeder podem se executados mais de uma vez sem duplicar registros.
 
 ## Banco de dados
 O projeto usa Sequelize com PostgreSQL. As alterações no banco são feitas por migrations
