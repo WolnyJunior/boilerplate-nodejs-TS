@@ -9,7 +9,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "db:migrate": "sequelize-cli db:migrate",
     "db:migrate:undo": "sequelize-cli db:migrate:undo",
-    "db:migration:create": "sequelize-cli migration:generate --name"
+    "db:migration:create": "sequelize-cli migration:generate --name",
+    "db:seed": "sequelize-cli db:seed:all",
+    "db:seed:undo": "sequelize-cli db:seed:undo:all",
+    "db:seed:create": "sequelize-cli seed:generate --name"
   },
   "keywords": [],
   "author": "",
