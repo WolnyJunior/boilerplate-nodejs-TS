@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import { AppError } from "../utils/AppError";
 
 // Roda quando nenhuma rota responder: transforma "rota não encontrada" em um AppError 404
-export function notFoundHandler(_req:Request, _res:Response, next:NextFunction):void{
+export function notFoundHandler(_req: Request, _res: Response, next: NextFunction): void {
     next(new AppError("Rota não encontrada", 404)) //next(erro) entrega o erro ao erroHandler
 }
 
@@ -16,7 +16,7 @@ export function errorHandler(
 ): void {
     //Erro esperado: devolvemos a mensagem e o status definido
     if (erro instanceof AppError) {
-        res.status(erro.statusCode).json({ error: erro.message })
+        res.status(erro.statusCode).json({ error: erro.message, detalhes: erro.detalhes })
         return
     }
     // Erro inesperado(bug): registramos no servidor, mas Não expomos detalhes ao cliente

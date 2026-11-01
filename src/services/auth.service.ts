@@ -20,12 +20,8 @@ const HASH_FALSO = bcrypt.hashSync("senha-false", 10)
 
 class AuthService {
     async login({ email, senha }: LoginDTO): Promise<LoginResultado> {
-        // Os dados vêm do corpo da requisição, então checamos o tipo em tempo de execução
-        if (typeof email !== "string" || typeof senha !== "string") {
-            throw new AppError("E-mail e senha são obrigatórios.", 400)
-        }
 
-        const usuario = await Usuario.findOne({ where: { email: email.trim().toLowerCase() } })
+        const usuario = await Usuario.findOne({ where: { email } })
 
         const senhaCorreta = await bcrypt.compare(senha, usuario?.senhaHash ?? HASH_FALSO)
 
