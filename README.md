@@ -33,20 +33,31 @@ A API sobe em `http://localhost:3000`
 - `npm run db:migration:create --nome` | Cria nova migration
 
 ## Variáveis de ambiente
-|    Variável   |      Descrição      |   Padrão    |
-|    --------   | -----------------   |   -------   |
-| `PORT`        | Porta do Servidor   | `3000`      |
-| `DB_HOST`     | Host do PostgreSQL  | `localhost` |
-| `DB_PORT`     | Porta do PostgreSQL | `5432`      |
-| `DB_NAME`     | Nome do banco       | obrigatória |
-| `DB_USER`     | Usuário do banco    | obrigatória |
-| `DB_PASSWORD` | Senha do banco      | obrigatória |
+|    Variável     |      Descrição      |   Padrão    |
+|    --------     | -----------------   |   -------   |
+| `PORT`          | Porta do Servidor   | `3000`      |
+| `DB_HOST`       | Host do PostgreSQL  | `localhost` |
+| `DB_PORT`       | Porta do PostgreSQL | `5432`      |
+| `DB_NAME`       | Nome do banco       | obrigatória |
+| `DB_USER`       | Usuário do banco    | obrigatória |
+| `DB_PASSWORD`   | Senha do banco      | obrigatória |
+| `JWT_SECRET`    | Chave do Token JWT  | obrigatória |
+| `JWT_EXPIRES_IN`| Validade do Token   | `1d`        |
 
+Para gerar uma `JWT_SECRET`
+``` bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
 
 ## Endpoints
-| Método |    Rota   |          Descrição           |
-| ------ | --------- |          ---------           |
-|  GET   | `/health` | Verifica se a API está no ar |
+| Método |    Rota        |          Descrição            |
+| ------ | -------------- |          ---------            |
+|  GET   | `/health`      | Verifica se a API está no ar  |
+|  POST  | `/usuarios`    | Cadastra novo usuário         |
+|  POST  | `/login`       | Autentica e retorna token JWT |
+|  GET   | `/usuarios/me` | Dados do usuário logado       |
+|  GET   | `/usuarios`    | Lista de usuários             |
+| DELETE | `/usuarios/:id`| Remove um usuário pelo id     |
 
 ## Tratamento de erros
 Erros esperados são lançados em `AppError(mensagem, statusCode)` e o middleware `errorHandler` responde sempre em JSON:
@@ -55,6 +66,21 @@ json
 { "error": "Rota não encontrada" }
 ```
 Rotas inexistentes retornam `404` e erros inesperados retornam `500`
+
+## Autenticação
+O login devolve um JWT. Nas rotas protegidas, envie-o no cabeçalho:
+```
+- `auth`: valida o token e identifica o usuário(`401` se ausente ou inválido)
+- `isAdmin`: deve vir depois do `auth` e restringe a rota a administradores(`403` se não for `admin`)
+```
+O perfil fica gravado dentro do token, então, uma mudança de perfil só vale a partir do novo login.
+
+### Primeiro `admin`
+O Cadastro sempre cria com perfil `usuário`. Para criar o primeiro admin, cadastre o usuário e promova-o direto no banco de dados:
+```sql
+UPDATE usuarios SET perfil = 'admin' WHERE email= 'email do usuario'
+
+```
 
 ## Banco de dados
 O projeto usa Sequelize com PostgreSQL. As alterações no banco são feitas por migrations
