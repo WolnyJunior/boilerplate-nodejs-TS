@@ -31,20 +31,9 @@ export function toUsuarioPublico(usuario: Usuario): UsuarioPublico {
 
 class UsuarioService {
     async cadastrar({ nome, email, senha }: CadastrarUsuarioDTO): Promise<UsuarioPublico> {
-        // Os dados vêm do corpo da requisição, então checa o tipo em tempo de execução
-        if (typeof nome !== "string") {
-            throw new AppError("Nome é obrigatório", 400)
-        }
-        if (typeof email !== "string" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-            throw new AppError("E-mail inválido.", 400)
-        }
-        if (typeof senha !== "string" || senha.length < 8) {
-            throw new AppError("A senha deve ter pelo menos 8 caracteres", 400)
-        }
-
-        const emailPadronizado = email.trim().toLowerCase()
-
-        const emailExistente = await Usuario.findOne({ where: { email: emailPadronizado } })
+        // 409 Conflict: o recurso já existe.
+        // (A coluna "unique" do banco é uma segunda proteção caso duas requisições cheguem juntas.)
+        const emailExistente = await Usuario.findOne({ where: { email } })
         if (emailExistente) {
             throw new AppError("E-mail já cadastrado.", 409)
         }
@@ -56,8 +45,8 @@ class UsuarioService {
         // O perfil NÃO vem do cliente: todo cadastro público nasce como "usuario" (padrão do model).
         // Se aceitar "perfil" no body, qualquer um se cadastraria como admin.
         const usuario = await Usuario.create({
-            nome: nome.trim(),
-            email: emailPadronizado,
+            nome,
+            email,
             senhaHash
         })
 

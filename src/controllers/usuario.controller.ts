@@ -2,13 +2,13 @@ import type { Request, Response } from "express";
 import usuarioService from "../services/usuario.service";
 import { AppError } from "../utils/AppError";
 import { Usuario } from "../models/Usuario";
+import { validarCadastro } from "../validators/usuario.validator";
 
 class UsuarioController {
     async cadastrar(req: Request, res: Response): Promise<void> {
         //"?? {}" evita erro caso a requisição cenha sem corpo(req.body undefined)
-        const { nome, email, senha } = req.body ?? {}
-
-        const usuario = await usuarioService.cadastrar({ nome, email, senha })
+        const dados = validarCadastro(req.body ?? {})
+        const usuario = await usuarioService.cadastrar(dados)
 
         res.status(201).json(usuario)
     }
