@@ -70,6 +70,22 @@ class UsuarioService {
         }
         return toUsuarioPublico(usuario)
     }
+    async listar(): Promise<UsuarioPublico[]> {
+        const usuarios = await Usuario.findAll({ order: [["id", "ASC"]] })
+        return usuarios.map(toUsuarioPublico)
+    }
+    async deletar(id: number, usuarioAtual: number): Promise<void> {
+        if (id === usuarioAtual) {
+            throw new AppError("Não é possivel apagar a propria conta.", 400)
+        }
+
+        const usuario = await Usuario.findByPk(id)
+        if (!usuario) {
+            throw new AppError("Usuário não encontrado.", 404)
+        }
+
+        await usuario.destroy()
+    }
 }
 
 export default new UsuarioService()
