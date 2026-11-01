@@ -50,7 +50,7 @@ A API sobe em `http://localhost:3000`
 | `SEED_ADMIN_PASSWORD`| Senha do admin(min 8 caracteres)    | Só para o seed |
 
 Para gerar uma `JWT_SECRET`
-``` bash
+```bash
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
@@ -66,11 +66,23 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 
 ## Tratamento de erros
 Erros esperados são lançados em `AppError(mensagem, statusCode)` e o middleware `errorHandler` responde sempre em JSON:
-```
-json
+```json
 { "error": "Rota não encontrada" }
 ```
 Rotas inexistentes retornam `404` e erros inesperados retornam `500`
+
+Erros de validação trazem a lista completa por campo:
+```json
+{
+    "error": "Dados inválidos",
+    "detalhes": [
+        {"campo": "email", "mensagem": "E-mail inválido"},
+        {"campo": "senha", "mensagem": "A senha deve ter pelo menos 8 caracteres."},
+    ]
+}
+```
+No login, credenciais incorretas retornam sempre `E-email ou senha inválidos`(`401`),
+sem indicar qual dos dois falhou, para não revelar quais e-mails possuem conta.
 
 ## Autenticação
 O login devolve um JWT. Nas rotas protegidas, envie-o no cabeçalho:
@@ -108,3 +120,4 @@ Para alterar uma tabela, crie uma nova migration: não edite uma já executada.
 - `src/utils`: funções auxiliares
 - `src/main.ts`: inicia servidor
 - `src/app.td`: configura o Express(JSON e rotas)
+- `src/validators`: validação do formato dos dados de entrada(por módulo)
