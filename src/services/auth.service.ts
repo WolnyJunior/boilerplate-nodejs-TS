@@ -4,7 +4,7 @@ import type { SignOptions } from 'jsonwebtoken'
 import { env } from '../config/env'
 import { Usuario } from '../models/Usuario'
 import { AppError } from '../utils/AppError'
-import type { UsuarioPublico } from './usuario.service'
+import { toUsuarioPublico, type UsuarioPublico } from './usuario.service'
 
 interface LoginDTO {
     email: string
@@ -45,12 +45,7 @@ class AuthService {
 
         return {
             token,
-            usuario: {
-                id: usuario.id,
-                nome: usuario.nome,
-                email: usuario.email,
-                perfil: usuario.perfil
-            }
+            usuario: toUsuarioPublico(usuario)
         }
     }
 }

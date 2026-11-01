@@ -19,6 +19,16 @@ export interface UsuarioPublico {
     perfil: "usuario" | "admin"
 }
 
+// Converte o model em um objeto seguro para devolver ao cliente( sem senhaHash )
+export function toUsuarioPublico(usuario: Usuario): UsuarioPublico {
+    return {
+        id: usuario.id,
+        nome: usuario.nome,
+        email: usuario.email,
+        perfil: usuario.perfil
+    }
+}
+
 class UsuarioService {
     async cadastrar({ nome, email, senha }: CadastrarUsuarioDTO): Promise<UsuarioPublico> {
         // Os dados vêm do corpo da requisição, então checa o tipo em tempo de execução
@@ -51,12 +61,14 @@ class UsuarioService {
             senhaHash
         })
 
-        return {
-            id: usuario.id,
-            nome: usuario.nome,
-            email: usuario.email,
-            perfil: usuario.perfil
+        return toUsuarioPublico(usuario)
+    }
+    async buscarPorId(id: number): Promise<UsuarioPublico> {
+        const usuario = await Usuario.findByPk(id)
+        if (!usuario) {
+            throw new AppError("Usuário não encontrado", 404)
         }
+        return toUsuarioPublico(usuario)
     }
 }
 
