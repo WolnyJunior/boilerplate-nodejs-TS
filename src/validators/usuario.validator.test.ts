@@ -18,7 +18,7 @@ describe("validarCadastro", () => {
         const dados = validarCadastro({
             nome: " Sorin ",
             email: " sorin@Teste.com ",
-            senha: "12345678"
+            senha: "12345678",
         })
 
         expect(dados).toEqual({ nome: "Sorin", email: "sorin@teste.com", senha: "12345678" })
@@ -33,7 +33,7 @@ describe("validarCadastro", () => {
 
     it("rejeita e-mail inválido e senha curta", () => {
         const erro = capturaErro(() =>
-            validarCadastro({ nome: "Itachi", email: "abc", senha: "123" })
+            validarCadastro({ nome: "Itachi", email: "abc", senha: "123" }),
         )
 
         expect(erro.detalhes?.map((d) => d.campo)).toEqual(["email", "senha"])
@@ -47,7 +47,6 @@ describe("validarCadastro", () => {
 })
 
 describe("validarAtualizacao", () => {
-
     it("exige ao menos um campo", () => {
         const erro = capturaErro(() => validarAtualizacao({}))
 
