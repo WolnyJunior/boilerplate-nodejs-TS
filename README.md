@@ -39,6 +39,8 @@ A API sobe em `http://localhost:3000`
 - `npm run format` | Formata o código (Prettier) |
 - `npm run format:check` | Apenas verifica a formatação |
 - `npm run typecheck` | Verifica os tipos do TypeScript sem gerar arquivos |
+- `npm test` | Executa os testes automatizados uma vez |
+- `npm run test:watch` | Executa os testes e reexecuta a cada alteração |
 
 ## Variáveis de ambiente
 |    Variável          |      Descrição                      |   Padrão       |
@@ -119,6 +121,13 @@ O projeto usa Sequelize com PostgreSQL. As alterações no banco são feitas por
 (`src/database/migrations`, em javaScript por exigência do `sequelize-cli`)
 e os models ficam em `src/models`(TypeScript).
 Para alterar uma tabela, crie uma nova migration: não edite uma já executada.
+
+## Testes
+Os testes usam Vitest e Supertest e ficam ao lado do código, em arquivos `*.test.ts`
+Eles **não precisam de banco de dados**: cobrem validações, rotas, autenticação e permissões.
+As variáveis de ambiente dos testes ficam em `vitest.config.mts`.
+
+O build (`npm run build`) usa `tsconfig.build.json`, que excluir os testes do `dist/`
 
 ## Padrão de código
 O estilo é definido pelo Prettier(`.prettierrc.json`) e as boas práticas pelo `ESLint`
