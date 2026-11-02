@@ -1,5 +1,4 @@
 import type { Request, Response } from "express";
-import { timeStamp } from "node:console";
 
 class HealthController {
     //Responde se a API está no ar. Serve para monitoramentos e testes.

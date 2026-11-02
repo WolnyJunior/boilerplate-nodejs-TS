@@ -23,7 +23,7 @@ export default function auth(req: Request, _res: Response, next: NextFunction): 
     try {
         // "algorithms" fixa o algoritmo aceito ( o mesmo que o sign usa por padrão)
         payload = jwt.verify(token, env.jwt.secret, { algorithms: ["HS256"] })
-    } catch (error) {
+    } catch {
         throw new AppError("Token inválido ou expirado.", 401)
     }
 
