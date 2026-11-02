@@ -3,7 +3,7 @@ import { defineConfig } from "vitest/config"
 export default defineConfig({
     test:{
         environment:"node",
-        include:["src/**/*.teste[.ts"], //testes ficam ao lado do código: arquivo.test.ts
+        include:["src/**/*.test.ts"], //testes ficam ao lado do código: arquivo.test.ts
         // Variáveis só dos testes: eles não dependem do .env nem do banco
         // O dotenv não sobrescreve variáveis já definidas, então elas valem durante os testes
         env:{
