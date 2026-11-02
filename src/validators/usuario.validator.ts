@@ -14,7 +14,7 @@ function limpaTexto(valor: unknown): string {
 // Recebem o valor já limpo e acrescentam os problemas encontrados à lista de erros.
 function checarNome(nome: string, erros: DetalheErro[]): void {
     if (!nome) {
-        erros.push({ campo: nome, mensagem: campoObrigatório })
+        erros.push({ campo: "nome", mensagem: campoObrigatório })
     } else if (nome.length > 100) {
         erros.push({ campo: "nome", mensagem: numeroMaximoCaracteresNome })
     }
