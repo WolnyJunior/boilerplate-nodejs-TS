@@ -34,6 +34,11 @@ A API sobe em `http://localhost:3000`
 - `npm run db:seed` | Popula o banco (admin inicial e usuarios de exemplo)
 - `npm run db:seed:undo` | Remove do dados criados pelos seeders
 - `npm run db:seed:create -- nome` | Cria um novo seeder
+- `npm run lint` | Verifica problemas no código (ESLint) |
+- `npm run lint:fix` | Corrige automaticamente o que for possível |
+- `npm run format` | Formata o código (Prettier) |
+- `npm run format:check` | Apenas verifica a formatação |
+- `npm run typecheck` | Verifica os tipos do TypeScript sem gerar arquivos |
 
 ## Variáveis de ambiente
 |    Variável          |      Descrição                      |   Padrão       |
@@ -114,6 +119,16 @@ O projeto usa Sequelize com PostgreSQL. As alterações no banco são feitas por
 (`src/database/migrations`, em javaScript por exigência do `sequelize-cli`)
 e os models ficam em `src/models`(TypeScript).
 Para alterar uma tabela, crie uma nova migration: não edite uma já executada.
+
+## Padrão de código
+O estilo é definido pelo Prettier(`.prettierrc.json`) e as boas práticas pelo `ESLint`
+```bash
+npm run lint
+npm run format
+npm run typecheck
+```
+> O TypeScript está fixado na série 6.0 (`~6.0.0`) porque o `typescript-eslint` ainda não suporta a versão 7. Ao atualizar, confira antes a compatibilidade.
+
 
 ## Estrutura de pastas
 - `src/controllers`: recebem a requisição e devolvem a resposta
