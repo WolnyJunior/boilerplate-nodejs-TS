@@ -1,8 +1,8 @@
 import type { Request, Response } from "express";
 import usuarioService from "../services/usuario.service";
 import { AppError } from "../utils/AppError";
-import { Usuario } from "../models/Usuario";
-import { validarCadastro } from "../validators/usuario.validator";
+import { parseId } from "../utils/parseId";
+import { validarAtualizacao, validarCadastro } from "../validators/usuario.validator";
 
 class UsuarioController {
     async cadastrar(req: Request, res: Response): Promise<void> {
@@ -24,15 +24,25 @@ class UsuarioController {
         const usuarios = await usuarioService.listar()
         res.status(200).json(usuarios)
     }
+    async atualizar(req: Request, res: Response): Promise<void> {
+        if (!req.usuario) {
+            throw new AppError("Não autenticado", 401)
+        }
+
+        const id = parseId(req.params.id)
+        const dados = validarAtualizacao(req.body ?? {})
+
+        //Passar req.usuario(id e perfil do token) para o service decidir as permissões
+        const usuario = await usuarioService.atualizar(id, dados, req.usuario)
+
+        res.status(200).json(usuario)
+    }
     async deletar(req: Request, res: Response): Promise<void> {
         if (!req.usuario) {
             throw new AppError("Não autenticado.", 401)
         }
-        const id = Number(req.params.id)
-        if (!Number.isInteger(id) || id <= 0) {
-            throw new AppError("ID Inválido", 400)
-        }
-
+        const id = parseId(req.params.id)
+       
         await usuarioService.deletar(id, req.usuario.id)
         res.status(204).send()
     }
