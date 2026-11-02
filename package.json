@@ -2,12 +2,27 @@
   "name": "boilerplate-nodejs-ts",
   "version": "1.0.0",
   "main": "dist/main.js",
+  "description": "API REST base com Node.js, TypeScript, Express, Sequelize e PostgreSQL",
+  "keywords": [
+    "nodejs",
+    "typescript",
+    "express",
+    "sequelize",
+    "postgresql",
+    "boilerplate"
+  ],
+  "author": "WolnyJr",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "ISC",
   "scripts": {
     "dev": "tsx watch src/main.ts",
     "start": "node dist/main.js",
     "build": "tsc -p tsconfig.build.json",
     "test": "vitest run",
-    "test:watch":"vitest",
+    "test:watch": "vitest",
     "db:migrate": "sequelize-cli db:migrate",
     "db:migrate:undo": "sequelize-cli db:migrate:undo",
     "db:migration:create": "sequelize-cli migration:generate --name",
@@ -20,10 +35,6 @@
     "format:check": "prettier --check src",
     "typecheck": "tsc --noEmit"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "devDependencies": {
     "@eslint/js": "^9.39.5",
     "@types/express": "^5.0.6",
