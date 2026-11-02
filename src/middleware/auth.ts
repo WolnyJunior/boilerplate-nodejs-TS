@@ -1,8 +1,8 @@
-import type { NextFunction, Request, Response } from "express";
-import jwt from "jsonwebtoken";
-import type { JwtPayload } from "jsonwebtoken";
-import { env } from "../config/env";
-import { AppError } from "../utils/AppError";
+import type { NextFunction, Request, Response } from "express"
+import jwt from "jsonwebtoken"
+import type { JwtPayload } from "jsonwebtoken"
+import { env } from "../config/env"
+import { AppError } from "../utils/AppError"
 
 export default function auth(req: Request, _res: Response, next: NextFunction): void {
     // O cliente envia o token assim: Authorization: Bearer <token>

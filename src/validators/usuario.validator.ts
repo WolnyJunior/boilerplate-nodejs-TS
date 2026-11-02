@@ -1,4 +1,4 @@
-import { AppError, type DetalheErro } from "../utils/AppError";
+import { AppError, type DetalheErro } from "../utils/AppError"
 
 const REGEX_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const campoObrigatório = "Campo obrigatório."
@@ -78,7 +78,10 @@ export function validarAtualizacao(dados: Record<string, unknown>): DadosAtualiz
     //Corpo sem nenhum campo conhecido: não há o que atualizar
     if (dados.nome === undefined && dados.email === undefined && dados.perfil === undefined) {
         throw new AppError("Dados inválidos", 400, [
-            { campo: "corpo", mensagem: "Informe ao menos um campo para atualizar: nome, email, perfil" }
+            {
+                campo: "corpo",
+                mensagem: "Informe ao menos um campo para atualizar: nome, email, perfil",
+            },
         ])
     }
 

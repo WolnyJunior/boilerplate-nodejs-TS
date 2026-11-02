@@ -1,5 +1,5 @@
-import type { NextFunction, Request, Response } from "express";
-import { AppError } from "../utils/AppError";
+import type { NextFunction, Request, Response } from "express"
+import { AppError } from "../utils/AppError"
 
 //Deve vir SEMPRE depois do auth, que é quem preenche req.usuario
 export function isAdmin(req: Request, _res: Response, next: NextFunction): void {

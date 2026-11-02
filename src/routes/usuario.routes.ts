@@ -1,7 +1,7 @@
-import { Router } from "express";
-import UsuarioController from "../controllers/usuario.controller";
-import auth from "../middleware/auth";
-import { isAdmin } from "../middleware/isAdmin";
+import { Router } from "express"
+import UsuarioController from "../controllers/usuario.controller"
+import auth from "../middleware/auth"
+import { isAdmin } from "../middleware/isAdmin"
 
 const usuarioRoutes = Router()
 

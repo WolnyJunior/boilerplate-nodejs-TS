@@ -1,6 +1,6 @@
-import type { Request, Response } from "express";
-import authService from "../services/auth.service";
-import { validarLogin } from "../validators/auth.validator";
+import type { Request, Response } from "express"
+import authService from "../services/auth.service"
+import { validarLogin } from "../validators/auth.validator"
 
 class AuthController {
     async login(req: Request, res: Response): Promise<void> {

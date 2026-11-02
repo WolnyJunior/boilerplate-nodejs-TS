@@ -5,7 +5,6 @@ import type { DadosAtualizacao } from "../validators/usuario.validator"
 
 // DTO(Data Transfer Object): descreve os dados que o service recebe
 
-
 const emailCadastrado = "E-mail já está cadastrado."
 
 interface CadastrarUsuarioDTO {
@@ -28,7 +27,7 @@ export function toUsuarioPublico(usuario: Usuario): UsuarioPublico {
         id: usuario.id,
         nome: usuario.nome,
         email: usuario.email,
-        perfil: usuario.perfil
+        perfil: usuario.perfil,
     }
 }
 
@@ -50,7 +49,7 @@ class UsuarioService {
         const usuario = await Usuario.create({
             nome,
             email,
-            senhaHash
+            senhaHash,
         })
 
         return toUsuarioPublico(usuario)
@@ -69,7 +68,7 @@ class UsuarioService {
     async atualizar(
         id: number,
         dados: DadosAtualizacao,
-        usuarioAtual: { id: number, perfil: "usuario" | "admin" }
+        usuarioAtual: { id: number; perfil: "usuario" | "admin" },
     ): Promise<UsuarioPublico> {
         const ehAdmin = usuarioAtual.perfil === "admin"
 
@@ -106,7 +105,6 @@ class UsuarioService {
 
         return toUsuarioPublico(usuario)
     }
-
 
     async deletar(id: number, usuarioAtual: number): Promise<void> {
         if (id === usuarioAtual) {

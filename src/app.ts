@@ -1,10 +1,10 @@
-import express from 'express'
-import routes from './routes'
-import { errorHandler, notFoundHandler } from './middleware/errorHandler'
+import express from "express"
+import routes from "./routes"
+import { errorHandler, notFoundHandler } from "./middleware/errorHandler"
 
 const app = express()
 
-app.use(express.json())//permite ler o corpo das requisições em JSON
+app.use(express.json()) //permite ler o corpo das requisições em JSON
 app.use(routes)
 
 app.use(notFoundHandler) // 1º: rota que não existe vira 404
