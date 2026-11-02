@@ -1,10 +1,10 @@
-import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
-import type { SignOptions } from 'jsonwebtoken'
-import { env } from '../config/env'
-import { Usuario } from '../models/Usuario'
-import { AppError } from '../utils/AppError'
-import { toUsuarioPublico, type UsuarioPublico } from './usuario.service'
+import bcrypt from "bcryptjs"
+import jwt from "jsonwebtoken"
+import type { SignOptions } from "jsonwebtoken"
+import { env } from "../config/env"
+import { Usuario } from "../models/Usuario"
+import { AppError } from "../utils/AppError"
+import { toUsuarioPublico, type UsuarioPublico } from "./usuario.service"
 
 interface LoginDTO {
     email: string
@@ -20,12 +20,11 @@ const HASH_FALSO = bcrypt.hashSync("senha-false", 10)
 
 class AuthService {
     async login({ email, senha }: LoginDTO): Promise<LoginResultado> {
-
         const usuario = await Usuario.findOne({ where: { email } })
 
         const senhaCorreta = await bcrypt.compare(senha, usuario?.senhaHash ?? HASH_FALSO)
 
-        if (!usuario || !senha) {
+        if (!usuario || !senhaCorreta) {
             throw new AppError("Usuário ou senha inválidos.", 401)
         }
 
@@ -36,12 +35,12 @@ class AuthService {
         const token = jwt.sign({ perfil: usuario.perfil }, env.jwt.secret, {
             subject: String(usuario.id),
             // NonNullable remove "undefined" do tipo, o que satisfaz o exactOptionalPropertyTypes
-            expiresIn: env.jwt.expiresIn as NonNullable<SignOptions["expiresIn"]>
+            expiresIn: env.jwt.expiresIn as NonNullable<SignOptions["expiresIn"]>,
         })
 
         return {
             token,
-            usuario: toUsuarioPublico(usuario)
+            usuario: toUsuarioPublico(usuario),
         }
     }
 }

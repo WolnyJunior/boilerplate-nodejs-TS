@@ -1,8 +1,8 @@
-import type { NextFunction, Request, Response } from "express";
-import jwt from "jsonwebtoken";
-import type { JwtPayload } from "jsonwebtoken";
-import { env } from "../config/env";
-import { AppError } from "../utils/AppError";
+import type { NextFunction, Request, Response } from "express"
+import jwt from "jsonwebtoken"
+import type { JwtPayload } from "jsonwebtoken"
+import { env } from "../config/env"
+import { AppError } from "../utils/AppError"
 
 export default function auth(req: Request, _res: Response, next: NextFunction): void {
     // O cliente envia o token assim: Authorization: Bearer <token>
@@ -23,7 +23,7 @@ export default function auth(req: Request, _res: Response, next: NextFunction): 
     try {
         // "algorithms" fixa o algoritmo aceito ( o mesmo que o sign usa por padrão)
         payload = jwt.verify(token, env.jwt.secret, { algorithms: ["HS256"] })
-    } catch (error) {
+    } catch {
         throw new AppError("Token inválido ou expirado.", 401)
     }
 

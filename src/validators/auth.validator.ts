@@ -1,4 +1,4 @@
-import { AppError, type DetalheErro } from "../utils/AppError";
+import { AppError, type DetalheErro } from "../utils/AppError"
 
 export interface DadosLogin {
     email: string

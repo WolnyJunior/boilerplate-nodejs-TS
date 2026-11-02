@@ -1,8 +1,8 @@
-import type { Request, Response } from "express";
-import usuarioService from "../services/usuario.service";
-import { AppError } from "../utils/AppError";
-import { parseId } from "../utils/parseId";
-import { validarAtualizacao, validarCadastro } from "../validators/usuario.validator";
+import type { Request, Response } from "express"
+import usuarioService from "../services/usuario.service"
+import { AppError } from "../utils/AppError"
+import { parseId } from "../utils/parseId"
+import { validarAtualizacao, validarCadastro } from "../validators/usuario.validator"
 
 class UsuarioController {
     async cadastrar(req: Request, res: Response): Promise<void> {
@@ -42,7 +42,7 @@ class UsuarioController {
             throw new AppError("Não autenticado.", 401)
         }
         const id = parseId(req.params.id)
-       
+
         await usuarioService.deletar(id, req.usuario.id)
         res.status(204).send()
     }

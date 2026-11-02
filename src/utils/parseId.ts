@@ -1,4 +1,4 @@
-import { AppError } from "./AppError";
+import { AppError } from "./AppError"
 
 //Parâmetros da URL chegam como texto: convertemos e garantimos um inteiro positivo
 export function parseId(valor: unknown): number {

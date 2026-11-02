@@ -1,6 +1,6 @@
-import { DataTypes, Model } from "sequelize";
-import type { CreationOptional, InferAttributes, InferCreationAttributes } from "sequelize";
-import { sequelize } from "../config/database";
+import { DataTypes, Model } from "sequelize"
+import type { CreationOptional, InferAttributes, InferCreationAttributes } from "sequelize"
+import { sequelize } from "../config/database"
 
 // Model<Atributos, AtributosParaCriar>: o Sequelize deduz os tipos a partir da própria classe
 export class Usuario extends Model<InferAttributes<Usuario>, InferCreationAttributes<Usuario>> {
@@ -12,7 +12,7 @@ export class Usuario extends Model<InferAttributes<Usuario>, InferCreationAttrib
     declare nome: string
     declare email: string
     declare senhaHash: string
-    declare perfil: CreationOptional<"usuario" | "admin">  // o TS limita os valores válidos
+    declare perfil: CreationOptional<"usuario" | "admin"> // o TS limita os valores válidos
     declare createdAt: CreationOptional<Date>
     declare updatedAt: CreationOptional<Date>
 }
@@ -23,32 +23,32 @@ Usuario.init(
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
         },
         nome: {
             type: DataTypes.STRING(100),
-            allowNull: false
+            allowNull: false,
         },
         email: {
             type: DataTypes.STRING(150),
             allowNull: false,
-            unique: true
+            unique: true,
         },
         senhaHash: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
         },
         perfil: {
             type: DataTypes.STRING(20),
             allowNull: false,
-            defaultValue: "usuario"
+            defaultValue: "usuario",
         },
         createdAt: DataTypes.DATE,
-        updatedAt: DataTypes.DATE
+        updatedAt: DataTypes.DATE,
     },
     {
-        sequelize,                  // a conexão criada em config/database.ts
-        tableName:"usuarios",       // nome exato da tabela no banco
-        underscored:true,           // converte camelCase (senhaHash) para snake_case(senha_hash) nas colunas
+        sequelize, // a conexão criada em config/database.ts
+        tableName: "usuarios", // nome exato da tabela no banco
+        underscored: true, // converte camelCase (senhaHash) para snake_case(senha_hash) nas colunas
     },
 )
