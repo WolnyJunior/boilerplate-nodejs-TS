@@ -25,7 +25,7 @@ class AuthService {
 
         const senhaCorreta = await bcrypt.compare(senha, usuario?.senhaHash ?? HASH_FALSO)
 
-        if (!usuario || !senha) {
+        if (!usuario || !senhaCorreta) {
             throw new AppError("Usuário ou senha inválidos.", 401)
         }
 
