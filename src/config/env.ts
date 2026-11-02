@@ -1,5 +1,4 @@
 import "dotenv/config"
-import { NUMBER } from "sequelize"
 
 // Lê uma variável obrigatória; se não existir, para a aplicação com uma mensagem clara
 function required(name: string): string {
@@ -19,6 +18,10 @@ export const env = {
         port: Number(process.env.DB_PORT ?? 5432),
         name: required("DB_NAME"),
         user: required("DB_USER"),
-        password: required("DB_PASSWORD")
+        password: required("DB_PASSWORD"),
+    },
+    jwt: {
+        secret: required("JWT_SECRET"), // Obrigat´roia, sem ela a API nem sobe
+        expiresIn: process.env.JWT_EXPIRES_IN ?? "1d",
     },
 }

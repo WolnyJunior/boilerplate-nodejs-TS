@@ -1,4 +1,4 @@
-require("dotenv").config()     // preenche process.env com o conteúdo do .env
+require("dotenv").config() // preenche process.env com o conteúdo do .env
 
 module.exports = {
     development: {
@@ -8,5 +8,5 @@ module.exports = {
         host: process.env.DB_HOST || "localhost",
         port: process.env.DB_PORT || 5432,
         dialect: "postgres",
-    }
+    },
 }
